@@ -3,7 +3,10 @@ name: Build JAR/WAR
 on:
   push:
     branches:
-      -main
+      - main
+  pull_request:
+    branches:
+      - main
 
 Jobs:
   build:
