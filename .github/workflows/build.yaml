@@ -1,0 +1,35 @@
+yaml
+name: Build JAR/WAR
+
+on:
+  push:
+    branches:
+      -main
+
+Jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Set up JDK
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version:'17'
+        distribution: 'temurin'
+
+    # Build the project
+    - name: Build JAR/WAR with Gradle
+      run: ./gradlew clean build
+
+    # Save Artifact
+    - name: Upload JAR/WAR artifact
+      uses: actions/upload artifact@v3
+      with:
+        name: application
+        path: build/libs/*.jar   # or build/libs/*.war
+      
