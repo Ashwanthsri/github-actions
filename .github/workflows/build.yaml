@@ -22,13 +22,13 @@ Jobs:
         distribution: 'temurin'
 
     # Build the project
-    - name: Build JAR/WAR with Gradle
-      run: ./gradlew clean build
-
+    - name: Build JAR/WAR with maven
+      run: mvn clean package
+      
     # Save Artifact
     - name: Upload JAR/WAR artifact
-      uses: actions/upload artifact@v3
+      uses: actions/upload-artifact@v3
       with:
         name: application
-        path: build/libs/*.jar   # or build/libs/*.war
+        path: target/*.jar   
       
