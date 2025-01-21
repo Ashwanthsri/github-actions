@@ -31,7 +31,7 @@
            <id>nexus-snapshot</id>
            <url>http://15.207.72.154:8081/repository/maven-snapshots/</url>
        </snapshotRepository>
-   </ditributionManagement>
+   </distributionManagement>
          
    <name>Example Java Application</name>
    <description> A Sample Maven project for building a JAR/WAR </description>
