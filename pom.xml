@@ -18,7 +18,7 @@
    <repositories>
        <repository>
            <id>nexus-public</id>
-           <url>http://43.205.196.84:8081/repository/maven-public/</url>
+           <url>http://15.207.72.154:8081/repository/maven-public/</url>
        </repository>
    </repositories>
 
