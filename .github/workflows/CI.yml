@@ -4,11 +4,10 @@ name: Java CI Pipeline
 on:
   push:
     branches:
-      - main  
       - master # Trigger pipeline on push to the main branch
   pull_request:
     branches:
-      - main   # Trigger pipeline on pull requests to the main branch
+      - master # Trigger pipeline on pull requests to the main branch
 
 jobs:
   build-and-test:
