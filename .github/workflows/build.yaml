@@ -1,12 +1,18 @@
 name: Build JAR/WAR
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+      environment:
+        required: false
+        type: string
+        default: development
+    secrets:
+      mySecret:
+        required: true
 
 jobs:
   build:
