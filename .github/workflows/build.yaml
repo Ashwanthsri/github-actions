@@ -24,14 +24,49 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    # Cache Maven dependencies
+    - name: Cache Maven Dependencies
+      uses: actions/cache@v2
+      with: 
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml')}}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    # Setup Maven settings for Nexus Deployment
+    - name: Create maven settings.xml 
+      run: | 
+        mkdir -p ~/.m2 
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" > ~/.m2/settings.xml 
+        echo "<settings>" >> ~/.m2/settings.xml 
+        echo "  <servers>" >> ~/.m2/settings.xml 
+        echo "    <server>" >> ~/.m2/settings.xml 
+        echo "      <id>nexus-releases</id>" >> ~/.m2/settings.xml 
+        echo "      <username>${{ secrets.NEXUS_USERNAME }}</username>" >> ~/.m2/settings.xml 
+        echo "      <password>${{ secrets.NEXUS_PASSWORD }}</password>" >> ~/.m2/settings.xml 
+        echo "    </server>" >> ~/.m2/settings.xml 
+        echo "    <server>" >> ~/.m2/settings.xml 
+        echo "      <id>nexus-snapshots</id>" >> ~/.m2/settings.xml 
+        echo "      <username>${{ secrets.NEXUS_USERNAME }}</username>" >> ~/.m2/settings.xml 
+        echo "      <password>${{ secrets.NEXUS_PASSWORD }}</password>" >> ~/.m2/settings.xml 
+        echo "    </server>" >> ~/.m2/settings.xml 
+        echo "  </servers>" >> ~/.m2/settings.xml 
+        echo "</settings>" >> ~/.m2/settings.xml
+
     # Build the project
     - name: Build JAR/WAR with maven
       run: mvn clean package
       
     # Save Artifact
-    - name: Upload JAR/WAR artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: application
-        path: target/*.jar   
+    - name: Deploy JAR/WAR artifact to Nexus
+      run: mvn deploy -B
+      env:
+        NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+        NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}  
       
+    # Verify Nexus Deployment 
+    - name: Verify Nexus Deployment 
+      run: |
+        curl -u ${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }} \
+        https://15.207.72.154:8081/repository/maven-releases/ \
+        --head
