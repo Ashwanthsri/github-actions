@@ -7,12 +7,14 @@ on:
         required: true
         type: string
       environment:
-        required: false
+        required: true
         type: string
         default: development
     secrets:
-      mySecret:
-        required: false
+      NEXUS_USERNAME:
+        required: true
+      NEXUS_PASSWORD:
+        required: true
 
 jobs:
   build:
