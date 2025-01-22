@@ -12,7 +12,7 @@ on:
         default: development
     secrets:
       mySecret:
-        required: true
+        required: false
 
 jobs:
   build:
