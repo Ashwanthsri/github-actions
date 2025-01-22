@@ -10,7 +10,7 @@ on:
         required: true
         type: string
         default: development
-    secrets:
+    env:
       NEXUS_USERNAME:
         required: true
       NEXUS_PASSWORD:
