@@ -63,7 +63,7 @@ jobs:
 
     # Build the project
     - name: Build JAR/WAR with maven
-      run: mvn clean packages
+      run: mvn clean package
 
     - name: Check for Blocked dependencies
       run: |
