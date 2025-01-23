@@ -63,12 +63,12 @@ jobs:
 
     # Build the project
     - name: Build JAR/WAR with maven
-      run: mvn clean install > build.log 2>&1
+      run: mvn clean packages
 
     - name: Check for Blocked dependencies
       run: |
         # check the maven output logs for the "could not resolve" error
-        if grep -q "could not resolve" target/build.log; then
+        if [[ $(mvn clean install) == *"Could not resolve"* ]]; then
            echo "Dependencies was blockedby Nexus!"
            exit 1
         fi
