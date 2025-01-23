@@ -66,7 +66,15 @@ jobs:
       run: |
         mvn clean package
         mvn clean install || echo "build failed due to blocked dependency"
-      
+
+    - name: Checked for Blocked dependencies
+      run: |
+        # check the maven output logs for the "could not resolve" error
+        if grep -q "could not resolve" target/build.log; then
+           echo "Dependencies was blockedby Nexus!"
+           exit 1
+        fi
+       
     # Save Artifact
     - name: Deploy JAR/WAR artifact to Nexus
       run: mvn deploy -B
