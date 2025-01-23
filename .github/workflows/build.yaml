@@ -76,5 +76,5 @@ jobs:
     - name: Verify Nexus Deployment 
       run: |
         curl -u ${{ secrets.NEXUS_USERNAME }}:${{ secrets.NEXUS_PASSWORD }} \
-        http://15.207.72.154:8081/repository/maven-snapshot-1.0/ \
+        http://13.232.220.3:8081/repository/maven-snapshot-1.0/ \
         --head
